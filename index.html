@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Atlas — Cours médicaux imprimés</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Cormorant+Garamond:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root{--g:#B8912F;--g2:#E6C766;--ink:#2a2418;--mut:#7a7060;--line:#eadfc2;--bg:#fffdf8}
+*{box-sizing:border-box}
+body{margin:0;font-family:Cairo,system-ui,sans-serif;color:var(--ink);background:var(--bg)}
+header{text-align:center;padding:44px 16px 34px;background:linear-gradient(180deg,#fff,#fbf4de);border-bottom:1px solid var(--line);position:relative}
+.lang{position:absolute;top:14px;inset-inline-end:14px;border:1px solid var(--g);background:#fff;color:var(--g);border-radius:20px;padding:6px 16px;font:600 14px Cairo;cursor:pointer}
+.logo{font:700 46px/1 'Cormorant Garamond',serif;letter-spacing:.28em;background:linear-gradient(90deg,var(--g),var(--g2),var(--g));-webkit-background-clip:text;background-clip:text;color:transparent;padding-inline-start:.28em}
+header p{margin:8px 0 0;color:var(--mut)}
+main{max-width:760px;margin:0 auto;padding:22px 14px 60px}
+section{background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px;margin-bottom:18px;box-shadow:0 6px 24px rgba(184,145,47,.08)}
+h2{margin:0 0 16px;font-size:18px;color:var(--g);display:flex;align-items:center;gap:10px}
+h2:after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--g2),transparent)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.full{grid-column:1/-1}
+label.f{display:block;font-size:13px;color:var(--mut);margin-bottom:4px}
+input,select{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:10px;font:15px Cairo;background:#fff;color:var(--ink)}
+input:focus,select:focus{outline:2px solid var(--g2);border-color:var(--g)}
+.hp{position:absolute;left:-9999px}
+.mode{display:flex;gap:10px}.mode label{flex:1;border:1px solid var(--line);border-radius:10px;padding:11px;cursor:pointer;text-align:center;font-size:14px}
+.mode input{display:none}.mode label:has(input:checked){border-color:var(--g);background:#fbf4de;font-weight:600}
+.item{display:flex;align-items:center;gap:10px;padding:11px 12px;border:1px solid var(--line);border-radius:10px;margin-top:8px}
+.item .t{flex:1;font-size:14px}.item b{color:var(--g);white-space:nowrap}
+.item input[type=checkbox]{width:20px;height:20px;accent-color:var(--g)}
+.item input[type=number]{width:64px;padding:6px}
+.sum .row{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px dashed var(--line);font-size:14px}
+.sum .x{background:none;border:0;color:#b33;cursor:pointer;font-size:16px}
+.tot{font-weight:700;font-size:19px;color:var(--g);border:0!important}
+.empty,.note{color:var(--mut);font-size:14px;text-align:center;padding:8px}
+button.go{width:100%;padding:15px;border:0;border-radius:12px;font:700 17px Cairo;color:#fff;cursor:pointer;background:linear-gradient(135deg,var(--g),var(--g2));box-shadow:0 8px 20px rgba(184,145,47,.3)}
+button.go:disabled{opacity:.5;cursor:wait}
+.err{color:#b33;text-align:center;margin:10px 0 0;min-height:20px;font-size:14px}
+.done{text-align:center;padding:50px 20px}.done .id{font:700 34px 'Cormorant Garamond',serif;color:var(--g);letter-spacing:.1em;direction:ltr}
+@media(max-width:560px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+  <button class="lang" id="lang"></button>
+  <svg width="38" height="38" viewBox="0 0 40 40" fill="none" stroke="#B8912F" stroke-width="1.6"><circle cx="20" cy="20" r="18"/><path d="M20 9v22M9 20h22" stroke-width="3" stroke-linecap="round"/></svg>
+  <div class="logo">ATLAS</div>
+  <p data-i="tag"></p>
+</header>
+<main id="app">
+  <section><h2 data-i="h1"></h2>
+    <div class="grid">
+      <div><label class="f" data-i="first"></label><input id="first" autocomplete="given-name"></div>
+      <div><label class="f" data-i="last"></label><input id="last" autocomplete="family-name"></div>
+      <div class="full"><label class="f" data-i="phone"></label><input id="phone" type="tel" inputmode="tel" placeholder="05 / 06 / 07 XX XX XX XX" dir="ltr"></div>
+      <div><label class="f" data-i="wilaya"></label><select id="wilaya"></select></div>
+      <div><label class="f" data-i="commune"></label><input id="commune" list="cl" autocomplete="off"><datalist id="cl"></datalist></div>
+      <div class="full"><label class="f" data-i="addr"></label><input id="addr" autocomplete="street-address"></div>
+      <div class="full"><label class="f" data-i="mode"></label>
+        <div class="mode"><label><input type="radio" name="mode" value="co" checked><span data-i="co"></span></label><label><input type="radio" name="mode" value="hand"><span data-i="hand"></span></label></div></div>
+    </div>
+    <input class="hp" id="hp" tabindex="-1" autocomplete="off">
+  </section>
+  <section><h2 data-i="h2"></h2>
+    <div class="grid">
+      <div class="full"><label class="f" data-i="spec"></label><select id="spec"></select></div>
+      <div><label class="f" data-i="year"></label><select id="year"></select></div>
+      <div><label class="f" data-i="subj"></label><select id="subj"></select></div>
+    </div>
+    <div id="list"></div>
+  </section>
+  <section class="sum"><h2 data-i="h3"></h2><div id="sum"></div></section>
+  <button class="go" id="send"></button>
+  <p class="err" id="err"></p>
+</main>
+<script>
+const $=s=>document.querySelector(s),esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const T={ar:{tag:'دروس طبية مطبوعة — طلب سريع وبسيط',h1:'معلوماتك',first:'الاسم',last:'اللقب',phone:'رقم الهاتف',wilaya:'الولاية',commune:'البلدية',addr:'العنوان',mode:'طريقة التوصيل',co:'شركة توصيل',hand:'يدًا بيد (طلبة مقيمون)',h2:'اختر مطبوعاتك',spec:'التخصص',year:'السنة',subj:'المادة',pick:'— اختر —',h3:'ملخص الطلب',none:'لم تختر أي مطبوعة بعد',noitems:'لا توجد مطبوعات متاحة هنا',sub:'المجموع',del:'التوصيل',tot:'الإجمالي',copies:'نسخ',send:'تأكيد الطلب — الدفع عند الاستلام',sending:'جارٍ الإرسال...',e1:'يرجى ملء جميع الحقول',e2:'رقم الهاتف غير صحيح (05/06/07 + 8 أرقام)',e3:'اختر مطبوعة واحدة على الأقل',e4:'تعذّر الإرسال، حاول مجددًا',ok:'تم استلام طلبك!',okp:'سنتواصل معك قريبًا. رقم طلبك:',load:'تعذّر تحميل القائمة، أعد المحاولة'},
+fr:{tag:'Cours médicaux imprimés — commande simple et rapide',h1:'Vos informations',first:'Prénom',last:'Nom',phone:'Téléphone',wilaya:'Wilaya',commune:'Commune',addr:'Adresse',mode:'Mode de livraison',co:'Société de livraison',hand:'Main à main (étudiants résidents)',h2:'Choisissez vos documents',spec:'Spécialité',year:'Année',subj:'Matière',pick:'— Choisir —',h3:'Récapitulatif',none:'Aucun document sélectionné',noitems:'Aucun document disponible ici',sub:'Sous-total',del:'Livraison',tot:'Total',copies:'ex.',send:'Confirmer — Paiement à la livraison',sending:'Envoi...',e1:'Veuillez remplir tous les champs',e2:'Numéro invalide (05/06/07 + 8 chiffres)',e3:'Sélectionnez au moins un document',e4:'Échec de l\'envoi, réessayez',ok:'Commande reçue !',okp:'Nous vous contacterons bientôt. N° de commande :',load:'Chargement impossible, réessayez'}};
+let L=localStorage.lang||'ar',D={catalog:[],delivery:[],config:{}},cart={};
+const t=k=>T[L][k],fmt=n=>n.toLocaleString('fr-DZ')+' DA',uniq=a=>[...new Set(a)];
+const opts=(a,sel)=>`<option value="">${t('pick')}</option>`+a.map(x=>`<option${x==sel?' selected':''}>${esc(x)}</option>`).join('');
+function setLang(l){L=l;localStorage.lang=l;document.documentElement.lang=l;document.documentElement.dir=l=='ar'?'rtl':'ltr';
+ document.querySelectorAll('[data-i]').forEach(e=>e.textContent=t(e.dataset.i));$('#lang').textContent=l=='ar'?'Français':'العربية';$('#send').textContent=t('send');
+ const v=$('#wilaya').value;$('#wilaya').innerHTML=opts(uniq(D.delivery.map(d=>d.wilaya)),v);fillSpec();render()}
+const sv=id=>$(id).value;
+function fillSpec(){const v=sv('#spec');$('#spec').innerHTML=opts(uniq(D.catalog.map(c=>c.spec)),v);fillYear()}
+function fillYear(){const v=sv('#year');$('#year').innerHTML=opts(uniq(D.catalog.filter(c=>c.spec==sv('#spec')).map(c=>c.year)).sort(),v);fillSubj()}
+function fillSubj(){const v=sv('#subj');$('#subj').innerHTML=opts(uniq(D.catalog.filter(c=>c.spec==sv('#spec')&&c.year==sv('#year')).map(c=>c.subject)),v);list()}
+function list(){const its=D.catalog.filter(c=>c.spec==sv('#spec')&&c.year==sv('#year')&&c.subject==sv('#subj'));
+ $('#list').innerHTML=sv('#subj')?(its.map(c=>`<div class="item"><input type="checkbox" data-id="${c.id}"${cart[c.id]?' checked':''}><span class="t">${esc(c.title)}</span><b>${fmt(c.price)}</b><input type="number" min="1" max="500" value="${cart[c.id]?.qty||1}" data-q="${c.id}" title="${t('copies')}"></div>`).join('')||`<p class="empty">${t('noitems')}</p>`):''}
+$('#list').addEventListener('change',e=>{const id=e.target.dataset.id||e.target.dataset.q;if(!id)return;
+ const q=document.querySelector(`[data-q="${id}"]`),ck=document.querySelector(`[data-id="${id}"]`),n=Math.min(500,Math.max(1,parseInt(q.value)||1));q.value=n;
+ if(ck.checked){cart[id]={item:D.catalog.find(c=>c.id==id),qty:n}}else delete cart[id];render()});
+function dprice(){const w=sv('#wilaya'),c=sv('#commune').trim(),m=document.querySelector('[name=mode]:checked').value;
+ if(m=='hand')return Number(D.config.hand_price||0);const r=D.delivery.find(d=>d.wilaya==w&&d.commune==c&&d.price!=null)||D.delivery.find(d=>d.wilaya==w&&!d.commune);return r?r.price:0}
+function render(){const ids=Object.keys(cart);if(!ids.length){$('#sum').innerHTML=`<p class="empty">${t('none')}</p>`;return}
+ const sub=ids.reduce((s,i)=>s+cart[i].item.price*cart[i].qty,0),d=dprice();
+ $('#sum').innerHTML=ids.map(i=>{const{item:c,qty}=cart[i];return`<div class="row"><span>${esc(c.spec)} ${esc(c.year)} · ${esc(c.subject)}<br><small>${esc(c.title)} × ${qty}</small></span><span>${fmt(c.price*qty)} <button class="x" data-rm="${i}">✕</button></span></div>`}).join('')
+ +`<div class="row"><span>${t('sub')}</span><span>${fmt(sub)}</span></div><div class="row"><span>${t('del')}</span><span>${fmt(d)}</span></div><div class="row tot"><span>${t('tot')}</span><span>${fmt(sub+d)}</span></div>`}
+$('#sum').addEventListener('click',e=>{const i=e.target.dataset.rm;if(i){delete cart[i];list();render()}});
+$('#spec').onchange=fillYear;$('#year').onchange=fillSubj;$('#subj').onchange=list;
+$('#wilaya').onchange=()=>{$('#commune').value='';$('#cl').innerHTML=D.delivery.filter(d=>d.wilaya==sv('#wilaya')&&d.commune).map(d=>`<option value="${esc(d.commune)}">`).join('');render()};
+$('#commune').oninput=render;document.querySelectorAll('[name=mode]').forEach(r=>r.onchange=render);
+$('#lang').onclick=()=>setLang(L=='ar'?'fr':'ar');
+$('#send').onclick=async()=>{const err=m=>$('#err').textContent=m||'';err();
+ const f={first:sv('#first').trim(),last:sv('#last').trim(),phone:sv('#phone').replace(/[\s.-]/g,''),wilaya:sv('#wilaya'),commune:sv('#commune').trim(),address:sv('#addr').trim()};
+ if(Object.values(f).some(x=>!x))return err(t('e1'));if(!/^0[567]\d{8}$/.test(f.phone))return err(t('e2'));
+ const ids=Object.keys(cart);if(!ids.length)return err(t('e3'));
+ $('#send').disabled=true;$('#send').textContent=t('sending');
+ try{const r=await(await fetch('/api/order',{method:'POST',body:JSON.stringify({...f,hp:sv('#hp'),mode:document.querySelector('[name=mode]:checked').value,items:ids.map(i=>({id:Number(i),qty:cart[i].qty}))})})).json();
+  if(!r.ok)throw 0;$('#app').innerHTML=`<section class="done"><svg width="54" height="54" viewBox="0 0 40 40" fill="none" stroke="#B8912F" stroke-width="2"><circle cx="20" cy="20" r="18"/><path d="M11 21l6 6 12-13" stroke-linecap="round" stroke-linejoin="round"/></svg><h2 style="justify-content:center">${t('ok')}</h2><p>${t('okp')}</p><div class="id">${esc(r.id)}</div></section>`;scrollTo(0,0)}
+ catch(e){err(t('e4'));$('#send').disabled=false;$('#send').textContent=t('send')}};
+fetch('/api/catalog').then(r=>r.json()).then(j=>{D=j;setLang(L)}).catch(()=>{setLang(L);$('#err').textContent=t('load')});
+setLang(L);
+</script>
+</body>
+</html>
