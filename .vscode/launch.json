@@ -5,11 +5,27 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "wrangler dev",
+            "type": "node",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "runtimeExecutable": "npx",
+            "runtimeArgs": ["wrangler", "dev"],
+            "console": "integratedTerminal",
+            "skipFiles": ["<node_internals>/**"]
+        },
+        {
+            "name": "Launch Chrome against localhost",
             "type": "chrome",
             "request": "launch",
-            "name": "Launch Chrome against localhost",
-            "url": "http://localhost:8080",
+            "url": "http://localhost:8787",
             "webRoot": "${workspaceFolder}"
+        }
+    ],
+    "compounds": [
+        {
+            "name": "wrangler dev + Chrome",
+            "configurations": ["wrangler dev", "Launch Chrome against localhost"]
         }
     ]
 }

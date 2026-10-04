@@ -1,0 +1,14 @@
+{
+  // Atlas — Cloudflare Worker config.
+  // "name" must stay "atlas" so the workers.dev URL is unchanged.
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "atlas",
+  "main": "worker.js",
+  "compatibility_date": "2024-09-23",
+  "observability": {
+    "enabled": true
+  }
+  // No "rules" needed: Wrangler's default module rules treat *.html as Text,
+  // which lets worker.js do `import INDEX_HTML from './index.html'`. That keeps
+  // index.html at the project root and publishes no source file (no /worker.js).
+}
