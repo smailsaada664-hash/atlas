@@ -3,48 +3,58 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Atlas — Cours médicaux imprimés</title>
+<title>Atlas — Cours imprimés</title>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Cormorant+Garamond:wght@600;700&display=swap" rel="stylesheet">
 <style>
 :root{--g:#B8912F;--g2:#E6C766;--ink:#2a2418;--mut:#7a7060;--line:#eadfc2;--bg:#fffdf8}
 *{box-sizing:border-box}
+html,body{max-width:100%;overflow-x:hidden}
 body{margin:0;font-family:Cairo,system-ui,sans-serif;color:var(--ink);background:var(--bg)}
-header{text-align:center;padding:44px 16px 34px;background:linear-gradient(180deg,#fff,#fbf4de);border-bottom:1px solid var(--line);position:relative}
-.lang{position:absolute;top:14px;inset-inline-end:14px;border:1px solid var(--g);background:#fff;color:var(--g);border-radius:20px;padding:6px 16px;font:600 14px Cairo;cursor:pointer}
-.logo{font:700 46px/1 'Cormorant Garamond',serif;letter-spacing:.28em;background:linear-gradient(90deg,var(--g),var(--g2),var(--g));-webkit-background-clip:text;background-clip:text;color:transparent;padding-inline-start:.28em}
-header p{margin:8px 0 0;color:var(--mut)}
-main{max-width:760px;margin:0 auto;padding:22px 14px 60px}
-section{background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px;margin-bottom:18px;box-shadow:0 6px 24px rgba(184,145,47,.08)}
-h2{margin:0 0 16px;font-size:18px;color:var(--g);display:flex;align-items:center;gap:10px}
+header{text-align:center;padding:34px 14px 24px;background:linear-gradient(180deg,#fff,#fbf4de);border-bottom:1px solid var(--line);position:relative}
+.lang{position:absolute;top:12px;inset-inline-end:12px;border:1px solid var(--g);background:#fff;color:var(--g);border-radius:20px;padding:5px 14px;font:600 14px Cairo;cursor:pointer}
+.lg{max-height:84px;max-width:70%;object-fit:contain}
+.logo{font:700 44px/1 'Cormorant Garamond',serif;letter-spacing:.28em;background:linear-gradient(90deg,var(--g),var(--g2),var(--g));-webkit-background-clip:text;background-clip:text;color:transparent;padding-inline-start:.28em}
+header p{margin:8px 0 0;color:var(--mut);font-size:14px}
+main{max-width:760px;margin:0 auto;padding:16px 12px 36px}
+section{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:14px;box-shadow:0 6px 24px rgba(184,145,47,.08)}
+h2{margin:0 0 14px;font-size:17px;color:var(--g);display:flex;align-items:center;gap:10px}
 h2:after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--g2),transparent)}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .full{grid-column:1/-1}
 label.f{display:block;font-size:13px;color:var(--mut);margin-bottom:4px}
-input,select{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:10px;font:15px Cairo;background:#fff;color:var(--ink)}
-input:focus,select:focus{outline:2px solid var(--g2);border-color:var(--g)}
-.hp{position:absolute;left:-9999px}
-.mode{display:flex;gap:10px}.mode label{flex:1;border:1px solid var(--line);border-radius:10px;padding:11px;cursor:pointer;text-align:center;font-size:14px}
+input,select,textarea{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:10px;font:15px Cairo;background:#fff;color:var(--ink)}
+textarea{resize:vertical;min-height:70px}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--g2);border-color:var(--g)}
+.hp{position:absolute;width:1px;height:1px;opacity:0;overflow:hidden;pointer-events:none;padding:0;border:0}
+.mode{display:flex;gap:10px}.mode label{flex:1;border:1px solid var(--line);border-radius:10px;padding:11px 6px;cursor:pointer;text-align:center;font-size:14px}
 .mode input{display:none}.mode label:has(input:checked){border-color:var(--g);background:#fbf4de;font-weight:600}
-.item{display:flex;align-items:center;gap:10px;padding:11px 12px;border:1px solid var(--line);border-radius:10px;margin-top:8px}
-.item .t{flex:1;font-size:14px}.item b{color:var(--g);white-space:nowrap}
-.item input[type=checkbox]{width:20px;height:20px;accent-color:var(--g)}
-.item input[type=number]{width:64px;padding:6px}
-.sum .row{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px dashed var(--line);font-size:14px}
-.sum .x{background:none;border:0;color:#b33;cursor:pointer;font-size:16px}
-.tot{font-weight:700;font-size:19px;color:var(--g);border:0!important}
-.empty,.note{color:var(--mut);font-size:14px;text-align:center;padding:8px}
+.subs{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{position:relative}.chip input{position:absolute;opacity:0;width:0;height:0}
+.chip span{display:block;border:1px solid var(--line);border-radius:20px;padding:6px 14px;font-size:14px;cursor:pointer;user-select:none}
+.chip input:checked+span{background:linear-gradient(135deg,var(--g),var(--g2));color:#fff;border-color:var(--g)}
+.chip input:focus-visible+span{outline:2px solid var(--g2)}
+.sub{font-size:14px}.sub span{border-radius:10px;padding:9px 10px;text-align:start}
+.item{display:flex;align-items:center;gap:10px;padding:11px 12px;border:1px solid var(--line);border-radius:10px;margin-top:8px;font-size:14px}
+.item .t{flex:1;min-width:0;overflow-wrap:anywhere}.item small{color:var(--mut)}
+.x{background:none;border:0;color:#b33;cursor:pointer;font-size:18px}
+button.add{width:100%;padding:12px;border:1.5px solid var(--g);border-radius:12px;background:#fff;color:var(--g);font:700 15px Cairo;cursor:pointer;margin-top:14px}
 button.go{width:100%;padding:15px;border:0;border-radius:12px;font:700 17px Cairo;color:#fff;cursor:pointer;background:linear-gradient(135deg,var(--g),var(--g2));box-shadow:0 8px 20px rgba(184,145,47,.3)}
 button.go:disabled{opacity:.5;cursor:wait}
-.err{color:#b33;text-align:center;margin:10px 0 0;min-height:20px;font-size:14px}
-.done{text-align:center;padding:50px 20px}.done .id{font:700 34px 'Cormorant Garamond',serif;color:var(--g);letter-spacing:.1em;direction:ltr}
-@media(max-width:560px){.grid{grid-template-columns:1fr}}
+.empty,.note{color:var(--mut);font-size:13px;text-align:center;padding:8px}
+.err{color:#b33;text-align:center;margin:8px 0 0;min-height:20px;font-size:14px}
+.done{text-align:center;padding:40px 16px}.done .id{font:700 34px 'Cormorant Garamond',serif;color:var(--g);letter-spacing:.1em;direction:ltr}
+footer{text-align:center;padding:6px 12px 30px}
+.soc{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.soc a{border:1px solid var(--g);color:var(--g);text-decoration:none;border-radius:20px;padding:7px 16px;font-size:14px;font-weight:600;background:#fff}
+@media(max-width:560px){.grid,.subs{grid-template-columns:1fr}.subs{grid-template-columns:1fr 1fr}.logo{font-size:38px}}
 </style>
 </head>
 <body>
 <header>
-  <button class="lang" id="lang"></button>
-  <svg width="38" height="38" viewBox="0 0 40 40" fill="none" stroke="#B8912F" stroke-width="1.6"><circle cx="20" cy="20" r="18"/><path d="M20 9v22M9 20h22" stroke-width="3" stroke-linecap="round"/></svg>
-  <div class="logo">ATLAS</div>
+  <button class="lang" id="lang" type="button"></button>
+  <img class="lg" src="logo.png" alt="Atlas" hidden onload="this.hidden=false;document.getElementById('wm').hidden=true">
+  <div class="logo" id="wm">ATLAS</div>
   <p data-i="tag"></p>
 </header>
 <main id="app">
@@ -52,65 +62,85 @@ button.go:disabled{opacity:.5;cursor:wait}
     <div class="grid">
       <div><label class="f" data-i="first"></label><input id="first" autocomplete="given-name"></div>
       <div><label class="f" data-i="last"></label><input id="last" autocomplete="family-name"></div>
-      <div class="full"><label class="f" data-i="phone"></label><input id="phone" type="tel" inputmode="tel" placeholder="05 / 06 / 07 XX XX XX XX" dir="ltr"></div>
-      <div><label class="f" data-i="wilaya"></label><select id="wilaya"></select></div>
-      <div><label class="f" data-i="commune"></label><input id="commune" list="cl" autocomplete="off"><datalist id="cl"></datalist></div>
-      <div class="full"><label class="f" data-i="addr"></label><input id="addr" autocomplete="street-address"></div>
-      <div class="full"><label class="f" data-i="mode"></label>
-        <div class="mode"><label><input type="radio" name="mode" value="co" checked><span data-i="co"></span></label><label><input type="radio" name="mode" value="hand"><span data-i="hand"></span></label></div></div>
     </div>
-    <input class="hp" id="hp" tabindex="-1" autocomplete="off">
   </section>
+
   <section><h2 data-i="h2"></h2>
     <div class="grid">
-      <div class="full"><label class="f" data-i="spec"></label><select id="spec"></select></div>
+      <div><label class="f" data-i="spec"></label><select id="spec"></select></div>
       <div><label class="f" data-i="year"></label><select id="year"></select></div>
-      <div><label class="f" data-i="subj"></label><select id="subj"></select></div>
+      <div class="full"><label class="f" data-i="subj"></label><div class="subs" id="subs"></div></div>
+      <div class="full"><label class="f" data-i="kind"></label><select id="kind"></select></div>
+      <div class="full"><label class="f" data-i="eds"></label><div class="chips" id="eds"></div></div>
+      <div class="full"><label class="f" data-i="copies"></label><input id="copies" type="number" min="1" max="500" value="1" inputmode="numeric"></div>
     </div>
-    <div id="list"></div>
+    <p class="err" id="err1"></p>
+    <button class="add" id="add" type="button"></button>
+    <div id="lines"></div>
   </section>
-  <section class="sum"><h2 data-i="h3"></h2><div id="sum"></div></section>
-  <button class="go" id="send"></button>
+
+  <section><h2 data-i="h3"></h2>
+    <div class="grid">
+      <div class="full"><label class="f" data-i="phone"></label><input id="phone" type="tel" inputmode="tel" placeholder="05 / 06 / 07 XX XX XX XX" dir="ltr"></div>
+      <div class="full"><label class="f" data-i="mode"></label>
+        <div class="mode"><label><input type="radio" name="mode" value="res" checked><span data-i="res"></span></label><label><input type="radio" name="mode" value="home"><span data-i="home"></span></label></div></div>
+      <div class="full" id="boxRes"><div class="grid">
+        <div><label class="f" data-i="resn"></label><input id="resn" list="rl" autocomplete="off"><datalist id="rl"></datalist></div>
+        <div><label class="f" data-i="room"></label><input id="room" autocomplete="off"></div></div></div>
+      <div class="full" id="boxHome" hidden><label class="f" data-i="addr"></label><input id="addr" autocomplete="street-address"><p class="note" data-i="blida"></p></div>
+      <div class="full"><label class="f" data-i="when"></label><input id="pickup" type="datetime-local"></div>
+      <div class="full"><label class="f" data-i="memo"></label><textarea id="memo" maxlength="500"></textarea></div>
+    </div>
+    <input class="hp" id="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+  </section>
+  <button class="go" id="send" type="button"></button>
+  <p class="note" data-i="price"></p>
   <p class="err" id="err"></p>
 </main>
+<footer><div class="soc" id="soc"></div></footer>
 <script>
 const $=s=>document.querySelector(s),esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const T={ar:{tag:'دروس طبية مطبوعة — طلب سريع وبسيط',h1:'معلوماتك',first:'الاسم',last:'اللقب',phone:'رقم الهاتف',wilaya:'الولاية',commune:'البلدية',addr:'العنوان',mode:'طريقة التوصيل',co:'شركة توصيل',hand:'يدًا بيد (طلبة مقيمون)',h2:'اختر مطبوعاتك',spec:'التخصص',year:'السنة',subj:'المادة',pick:'— اختر —',h3:'ملخص الطلب',none:'لم تختر أي مطبوعة بعد',noitems:'لا توجد مطبوعات متاحة هنا',sub:'المجموع',del:'التوصيل',tot:'الإجمالي',copies:'نسخ',send:'تأكيد الطلب — الدفع عند الاستلام',sending:'جارٍ الإرسال...',e1:'يرجى ملء جميع الحقول',e2:'رقم الهاتف غير صحيح (05/06/07 + 8 أرقام)',e3:'اختر مطبوعة واحدة على الأقل',e4:'تعذّر الإرسال، حاول مجددًا',ok:'تم استلام طلبك!',okp:'سنتواصل معك قريبًا. رقم طلبك:',load:'تعذّر تحميل القائمة، أعد المحاولة'},
-fr:{tag:'Cours médicaux imprimés — commande simple et rapide',h1:'Vos informations',first:'Prénom',last:'Nom',phone:'Téléphone',wilaya:'Wilaya',commune:'Commune',addr:'Adresse',mode:'Mode de livraison',co:'Société de livraison',hand:'Main à main (étudiants résidents)',h2:'Choisissez vos documents',spec:'Spécialité',year:'Année',subj:'Matière',pick:'— Choisir —',h3:'Récapitulatif',none:'Aucun document sélectionné',noitems:'Aucun document disponible ici',sub:'Sous-total',del:'Livraison',tot:'Total',copies:'ex.',send:'Confirmer — Paiement à la livraison',sending:'Envoi...',e1:'Veuillez remplir tous les champs',e2:'Numéro invalide (05/06/07 + 8 chiffres)',e3:'Sélectionnez au moins un document',e4:'Échec de l\'envoi, réessayez',ok:'Commande reçue !',okp:'Nous vous contacterons bientôt. N° de commande :',load:'Chargement impossible, réessayez'}};
-let L=localStorage.lang||'ar',D={catalog:[],delivery:[],config:{}},cart={};
-const t=k=>T[L][k],fmt=n=>n.toLocaleString('fr-DZ')+' DA',uniq=a=>[...new Set(a)];
-const opts=(a,sel)=>`<option value="">${t('pick')}</option>`+a.map(x=>`<option${x==sel?' selected':''}>${esc(x)}</option>`).join('');
+const YEARS=[2020,2021,2022,2023,2024,2025,2026,2027];
+const T={ar:{tag:'دروس مطبوعة — اطلب بسهولة',h1:'معلوماتك',first:'الاسم',last:'اللقب',h2:'ما الذي تريد طباعته؟',spec:'التخصص',year:'السنة الدراسية',subj:'المادة (يمكنك اختيار أكثر من مادة)',kind:'النوع',eds:'اختر السنوات (من 2020 إلى 2027)',copies:'عدد النسخ',all:'الكل',add:'+ أضف إلى الطلب',pick:'— اختر —',k1:'درس',k2:'سلسلة تمارين (TD)',k3:'الدرس + سلسلة التمارين',h3:'الاستلام والتواصل',phone:'رقم الهاتف',mode:'طريقة الاستلام',res:'إقامة جامعية',home:'توصيل للمنزل (البليدة)',resn:'الإقامة (مثال: Soumâa 6)',room:'الجناح / رقم الغرفة',addr:'العنوان الكامل في البليدة',blida:'التوصيل متاح في ولاية البليدة فقط',when:'وقت استلام الطلب',memo:'ملاحظة أو إضافة (اختياري)',price:'بعد تأكيد الطلب نتصل بك ونخبرك بالسعر.',send:'تأكيد الطلب',sending:'جارٍ الإرسال...',none:'لم تضف أي مادة بعد',yr:'السنة',e0:'اكتب الاسم واللقب',e1:'اختر مادة واحدة على الأقل',e2:'اختر سنة واحدة على الأقل من 2020 إلى 2027',e3:'عدد النسخ بين 1 و 500',e4:'أضف مادة واحدة على الأقل إلى الطلب',e5:'رقم الهاتف غير صحيح (05/06/07 + 8 أرقام)',e6:'أدخل مكان الاستلام',e7:'حدّد وقت الاستلام',e8:'تعذّر الإرسال، حاول مجددًا',ok:'تم استلام طلبك!',okp:'سنتصل بك قريبًا لتأكيد الطلب وإخبارك بالسعر. رقم طلبك:',load:'تعذّر تحميل القائمة، أعد المحاولة'},
+fr:{tag:'Cours imprimés — commandez facilement',h1:'Vos informations',first:'Prénom',last:'Nom',h2:'Que voulez-vous imprimer ?',spec:'Spécialité',year:'Année d\'étude',subj:'Matière (plusieurs choix possibles)',kind:'Type',eds:'Choisissez les années (2020 à 2027)',copies:'Nombre d\'exemplaires',all:'Tout',add:'+ Ajouter à la commande',pick:'— Choisir —',k1:'Cours',k2:'Séries TD / exercices',k3:'Cours + Séries TD',h3:'Retrait et contact',phone:'Téléphone',mode:'Mode de réception',res:'Résidence universitaire',home:'Livraison à domicile (Blida)',resn:'Résidence (ex. Soumâa 6)',room:'Pavillon / n° de chambre',addr:'Adresse complète à Blida',blida:'Livraison uniquement dans la wilaya de Blida',when:'Heure de réception souhaitée',memo:'Remarque ou ajout (facultatif)',price:'Après confirmation de la commande, nous vous appelons pour vous communiquer le prix.',send:'Confirmer la commande',sending:'Envoi...',none:'Aucune matière ajoutée',yr:'Année',e0:'Saisissez prénom et nom',e1:'Choisissez au moins une matière',e2:'Choisissez au moins une année (2020 à 2027)',e3:'Nombre d\'exemplaires entre 1 et 500',e4:'Ajoutez au moins une matière à la commande',e5:'Numéro invalide (05/06/07 + 8 chiffres)',e6:'Indiquez le lieu de réception',e7:'Indiquez l\'heure de réception',e8:'Échec de l\'envoi, réessayez',ok:'Commande reçue !',okp:'Nous vous appellerons bientôt pour confirmer et vous donner le prix. N° de commande :',load:'Chargement impossible, réessayez'}};
+let L=localStorage.lang||'ar',D={catalog:[],residences:[],config:{}},lines=[];
+const t=k=>T[L][k],uniq=a=>[...new Set(a)],sv=id=>$(id).value;
+const ylab=y=>L=='ar'?`السنة ${y}`:`${y}${y==1?'ère':'ème'} année`;
+const opts=(a,sel,lab)=>`<option value="">${t('pick')}</option>`+a.map(x=>`<option value="${esc(x)}"${x==sel?' selected':''}>${esc(lab?lab(x):x)}</option>`).join('');
 function setLang(l){L=l;localStorage.lang=l;document.documentElement.lang=l;document.documentElement.dir=l=='ar'?'rtl':'ltr';
- document.querySelectorAll('[data-i]').forEach(e=>e.textContent=t(e.dataset.i));$('#lang').textContent=l=='ar'?'Français':'العربية';$('#send').textContent=t('send');
- const v=$('#wilaya').value;$('#wilaya').innerHTML=opts(uniq(D.delivery.map(d=>d.wilaya)),v);fillSpec();render()}
-const sv=id=>$(id).value;
-function fillSpec(){const v=sv('#spec');$('#spec').innerHTML=opts(uniq(D.catalog.map(c=>c.spec)),v);fillYear()}
-function fillYear(){const v=sv('#year');$('#year').innerHTML=opts(uniq(D.catalog.filter(c=>c.spec==sv('#spec')).map(c=>c.year)).sort(),v);fillSubj()}
-function fillSubj(){const v=sv('#subj');$('#subj').innerHTML=opts(uniq(D.catalog.filter(c=>c.spec==sv('#spec')&&c.year==sv('#year')).map(c=>c.subject)),v);list()}
-function list(){const its=D.catalog.filter(c=>c.spec==sv('#spec')&&c.year==sv('#year')&&c.subject==sv('#subj'));
- $('#list').innerHTML=sv('#subj')?(its.map(c=>`<div class="item"><input type="checkbox" data-id="${c.id}"${cart[c.id]?' checked':''}><span class="t">${esc(c.title)}</span><b>${fmt(c.price)}</b><input type="number" min="1" max="500" value="${cart[c.id]?.qty||1}" data-q="${c.id}" title="${t('copies')}"></div>`).join('')||`<p class="empty">${t('noitems')}</p>`):''}
-$('#list').addEventListener('change',e=>{const id=e.target.dataset.id||e.target.dataset.q;if(!id)return;
- const q=document.querySelector(`[data-q="${id}"]`),ck=document.querySelector(`[data-id="${id}"]`),n=Math.min(500,Math.max(1,parseInt(q.value)||1));q.value=n;
- if(ck.checked){cart[id]={item:D.catalog.find(c=>c.id==id),qty:n}}else delete cart[id];render()});
-function dprice(){const w=sv('#wilaya'),c=sv('#commune').trim(),m=document.querySelector('[name=mode]:checked').value;
- if(m=='hand')return Number(D.config.hand_price||0);const r=D.delivery.find(d=>d.wilaya==w&&d.commune==c&&d.price!=null)||D.delivery.find(d=>d.wilaya==w&&!d.commune);return r?r.price:0}
-function render(){const ids=Object.keys(cart);if(!ids.length){$('#sum').innerHTML=`<p class="empty">${t('none')}</p>`;return}
- const sub=ids.reduce((s,i)=>s+cart[i].item.price*cart[i].qty,0),d=dprice();
- $('#sum').innerHTML=ids.map(i=>{const{item:c,qty}=cart[i];return`<div class="row"><span>${esc(c.spec)} ${esc(c.year)} · ${esc(c.subject)}<br><small>${esc(c.title)} × ${qty}</small></span><span>${fmt(c.price*qty)} <button class="x" data-rm="${i}">✕</button></span></div>`}).join('')
- +`<div class="row"><span>${t('sub')}</span><span>${fmt(sub)}</span></div><div class="row"><span>${t('del')}</span><span>${fmt(d)}</span></div><div class="row tot"><span>${t('tot')}</span><span>${fmt(sub+d)}</span></div>`}
-$('#sum').addEventListener('click',e=>{const i=e.target.dataset.rm;if(i){delete cart[i];list();render()}});
-$('#spec').onchange=fillYear;$('#year').onchange=fillSubj;$('#subj').onchange=list;
-$('#wilaya').onchange=()=>{$('#commune').value='';$('#cl').innerHTML=D.delivery.filter(d=>d.wilaya==sv('#wilaya')&&d.commune).map(d=>`<option value="${esc(d.commune)}">`).join('');render()};
-$('#commune').oninput=render;document.querySelectorAll('[name=mode]').forEach(r=>r.onchange=render);
+ document.querySelectorAll('[data-i]').forEach(e=>e.textContent=t(e.dataset.i));
+ $('#lang').textContent=l=='ar'?'Français':'العربية';$('#send').textContent=t('send');$('#add').textContent=t('add');
+ const k=sv('#kind')||'cours';$('#kind').innerHTML=[['cours','k1'],['td','k2'],['both','k3']].map(([v,n])=>`<option value="${v}"${v==k?' selected':''}>${t(n)}</option>`).join('');
+ $('#rl').innerHTML=D.residences.map(r=>`<option value="${esc(r)}">`).join('');
+ fillSpec();renderEds();lineList();social()}
+function fillSpec(){$('#spec').innerHTML=opts(uniq(D.catalog.map(c=>c.spec)),sv('#spec'));fillYear()}
+function fillYear(){$('#year').innerHTML=opts(uniq(D.catalog.filter(c=>c.spec==sv('#spec')).map(c=>c.year)).sort(),sv('#year'),ylab);subs()}
+function subs(){const s=D.catalog.filter(c=>c.spec==sv('#spec')&&c.year==sv('#year')).map(c=>c.subject);
+ $('#subs').innerHTML=s.map(x=>`<label class="chip sub"><input type="checkbox" value="${esc(x)}"><span>${esc(x)}</span></label>`).join('')}
+function renderEds(){const on=[...document.querySelectorAll('#eds input:checked')].map(i=>i.value);
+ $('#eds').innerHTML=`<label class="chip"><input type="checkbox" id="edall"><span>${t('all')}</span></label>`+YEARS.map(y=>`<label class="chip"><input type="checkbox" value="${y}"${on.includes(String(y))?' checked':''}><span>${y}</span></label>`).join('')}
+$('#eds').addEventListener('change',e=>{if(e.target.id=='edall')document.querySelectorAll('#eds input[value]').forEach(i=>i.checked=e.target.checked);else $('#edall').checked=[...document.querySelectorAll('#eds input[value]')].every(i=>i.checked)});
+$('#spec').onchange=fillYear;$('#year').onchange=subs;
+$('#add').onclick=()=>{const er=m=>$('#err1').textContent=m||'';er();
+ const sb=[...document.querySelectorAll('#subs input:checked')].map(i=>i.value),eds=[...document.querySelectorAll('#eds input[value]:checked')].map(i=>Number(i.value)),n=parseInt(sv('#copies'));
+ if(!sb.length)return er(t('e1'));if(!eds.length)return er(t('e2'));if(!(n>=1&&n<=500))return er(t('e3'));
+ sb.forEach(s=>lines.push({spec:sv('#spec'),year:sv('#year'),subject:s,kind:sv('#kind'),eds,copies:n}));
+ document.querySelectorAll('#subs input').forEach(i=>i.checked=false);lineList()};
+function lineList(){const kn={cours:t('k1'),td:t('k2'),both:t('k3')};
+ $('#lines').innerHTML=lines.length?lines.map((l,i)=>`<div class="item"><span class="t"><b>${esc(l.spec)} · ${ylab(l.year)}</b> — ${esc(l.subject)}<br><small>${kn[l.kind]} · ${l.eds.join(', ')} · ×${l.copies}</small></span><button class="x" type="button" data-rm="${i}" aria-label="x">✕</button></div>`).join(''):`<p class="empty">${t('none')}</p>`}
+$('#lines').addEventListener('click',e=>{const i=e.target.dataset.rm;if(i!=null){lines.splice(i,1);lineList()}});
+document.querySelectorAll('[name=mode]').forEach(r=>r.onchange=()=>{const h=document.querySelector('[name=mode]:checked').value=='home';$('#boxHome').hidden=!h;$('#boxRes').hidden=h});
+function social(){const c=D.config,mk=(k,n)=>{let v=String(c[k]||'').trim();if(!v)return'';if(k=='whatsapp'&&!/^https?:/.test(v))v='https://wa.me/'+v.replace(/\D/g,'').replace(/^0/,'213');return/^https?:/.test(v)?`<a href="${esc(v)}" target="_blank" rel="noopener">${n}</a>`:''};
+ $('#soc').innerHTML=mk('whatsapp','WhatsApp')+mk('facebook','Facebook')+mk('telegram','Telegram')+mk('instagram','Instagram')}
 $('#lang').onclick=()=>setLang(L=='ar'?'fr':'ar');
-$('#send').onclick=async()=>{const err=m=>$('#err').textContent=m||'';err();
- const f={first:sv('#first').trim(),last:sv('#last').trim(),phone:sv('#phone').replace(/[\s.-]/g,''),wilaya:sv('#wilaya'),commune:sv('#commune').trim(),address:sv('#addr').trim()};
- if(Object.values(f).some(x=>!x))return err(t('e1'));if(!/^0[567]\d{8}$/.test(f.phone))return err(t('e2'));
- const ids=Object.keys(cart);if(!ids.length)return err(t('e3'));
+$('#pickup').min=new Date(Date.now()-new Date().getTimezoneOffset()*6e4).toISOString().slice(0,16);
+$('#send').onclick=async()=>{const er=m=>$('#err').textContent=m||'';er();
+ const first=sv('#first').trim(),last=sv('#last').trim(),phone=sv('#phone').replace(/[\s.-]/g,''),home=document.querySelector('[name=mode]:checked').value=='home',place=(home?sv('#addr'):sv('#resn')).trim(),pickup=sv('#pickup');
+ if(!first||!last)return er(t('e0'));if(!lines.length)return er(t('e4'));if(!/^0[567]\d{8}$/.test(phone))return er(t('e5'));if(!place)return er(t('e6'));if(!pickup)return er(t('e7'));
  $('#send').disabled=true;$('#send').textContent=t('sending');
- try{const r=await(await fetch('/api/order',{method:'POST',body:JSON.stringify({...f,hp:sv('#hp'),mode:document.querySelector('[name=mode]:checked').value,items:ids.map(i=>({id:Number(i),qty:cart[i].qty}))})})).json();
+ try{const r=await(await fetch('/api/order',{method:'POST',body:JSON.stringify({first,last,phone,mode:home?'home':'res',place,room:sv('#room'),pickup,note:sv('#memo'),hp:sv('#hp'),items:lines})})).json();
   if(!r.ok)throw 0;$('#app').innerHTML=`<section class="done"><svg width="54" height="54" viewBox="0 0 40 40" fill="none" stroke="#B8912F" stroke-width="2"><circle cx="20" cy="20" r="18"/><path d="M11 21l6 6 12-13" stroke-linecap="round" stroke-linejoin="round"/></svg><h2 style="justify-content:center">${t('ok')}</h2><p>${t('okp')}</p><div class="id">${esc(r.id)}</div></section>`;scrollTo(0,0)}
- catch(e){err(t('e4'));$('#send').disabled=false;$('#send').textContent=t('send')}};
+ catch(e){er(t('e8'));$('#send').disabled=false;$('#send').textContent=t('send')}};
 fetch('/api/catalog').then(r=>r.json()).then(j=>{D=j;setLang(L)}).catch(()=>{setLang(L);$('#err').textContent=t('load')});
 setLang(L);
 </script>
